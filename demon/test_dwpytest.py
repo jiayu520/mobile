@@ -53,7 +53,19 @@ class TestDW():
         action.press(x=x1,y=y_start).wait(500).move_to(x=x1,y=y_end).release().perform()#滑动操作
 
 
+    def test_getcurrent_prices(self):
+        self.driver.find_element_by_id("com.xueqiu.android:id/home_search").click()
+        self.driver.find_element_by_id("com.xueqiu.android:id/search_input_text").send_keys("阿里巴巴 ")
+        self.driver.find_element_by_xpath("//*[@resource-id='com.xueqiu.android:id/name' and @text='阿里巴巴']").click()
+        current_prices  = self.driver.find_element_by_xpath("//*[@text='09988']/../../..//*[@resource-id='com.xueqiu.android:id/current_price']").text
+        assert float(current_prices) > 200
 
+    def test_myinfo(self):
+        self.driver.find_element_by_android_uiautomator('new UiSelector().text("我的")').click()
+        self.driver.find_element_by_android_uiautomator('new UiSelector().textContains("帐号密码")').click()
+        self.driver.find_element_by_android_uiautomator('new UiSelector().resourceId("com.xueqiu.android:id/login_account")').send_keys('123456')
+        self.driver.find_element_by_android_uiautomator('new UiSelector().resourceId("com.xueqiu.android:id/login_password")').send_keys('123456')
+        self.driver.find_element_by_android_uiautomator('new UiSelector().resourceId("com.xueqiu.android:id/button_next")').click()
 
 if __name__ == '__main__':
     pytest.main()
